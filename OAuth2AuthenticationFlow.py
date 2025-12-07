@@ -43,24 +43,3 @@ refresh_token = tokens["refresh_token"]
 
 print("Access Token:", access_token)
 print("Refresh Token:", refresh_token)
-
-# Step 3: Use the access token to make API calls
-headers = {"Authorization": f"Bearer {access_token}"}
-sleep_data = requests.get(
-    "https://api.ouraring.com/v2/usercollection/sleep",
-    headers=headers,
-    params={"start_date": "2025-12-06", "end_date": "2025-12-07"}
-)
-print(json.dumps(sleep_data.json(), indent=2))
-
-# Step 4: Refresh the token when it expires
-def refresh_access_token(refresh_token):
-    token_data = {
-        "grant_type": "refresh_token",
-        "refresh_token": refresh_token,
-        "client_id": CLIENT_ID,
-        "client_secret": CLIENT_SECRET
-    }
-    response = requests.post(token_url, data=token_data)
-    new_tokens = response.json()
-    return new_tokens["access_token"], new_tokens["refresh_token"]
